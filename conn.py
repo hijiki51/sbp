@@ -20,8 +20,12 @@ class Connector:
                 sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
-        self.connect(mac, delegator)
-        return
+        connector = bluepy.btle.Peripheral()
+        connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
+        print("Connected")
+        connector.withDelegate(delegator)
+        self.connector = connector
+        return 
     def disconnect(self):
         if self.connector:
             self.connector.disconnect()
