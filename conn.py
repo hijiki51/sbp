@@ -1,7 +1,8 @@
 import bluepy
+from typing import Optional
 
 class Connector:
-    connector: bluepy.btle.Peripheral | None
+    connector: Optional[bluepy.btle.Peripheral]
     def connect(self, mac: str, delegator):
         is_connect = False
         connector = bluepy.btle.Peripheral()
