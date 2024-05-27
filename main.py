@@ -36,7 +36,7 @@ if __name__ == "__main__":
                 connector = d["conn"]
                 delegator = d["delegate"]
                 delegator.send_req(connector, conn.conn)
-            sleep(3)
+            sleep(1)
     finally:
         connector.disconnect()
         pass
