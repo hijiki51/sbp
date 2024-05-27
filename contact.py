@@ -22,18 +22,20 @@ class SWContactStatus:
     door: bool
 
 class SWContact(bluepy.btle.DefaultDelegate):
+    mac: str
     handler: Callable
-    def __init__(self, handler: Callable):
+    def __init__(self, handler: Callable,mac: str):
         bluepy.btle.DefaultDelegate.__init__(self)
         self.handler = handler
+        self.mac = mac
     def handleNotification(self, cHandle, data):
         self.handler(data)
         pass
-    def send_req(self, conn: bluepy.btle.Peripheral, retrier: Callable, mac: str):
+    def send_req(self, conn: bluepy.btle.Peripheral, retrier: Callable):
         try:
             conn.writeCharacteristic(SBOTCON_HANDLE_NOTIFY+1, b'\x01\x00') 
             conn.writeCharacteristic(SBOTCON_HANDLE_WRITE, b'\x57\x00\x11') # https://github.com/OpenWonderLabs/SwitchBotAPI-BLE/blob/latest/devicetypes/contactsensor.md#0x11-get-device-status-data
             conn.waitForNotifications(1.0)
             return
         except bluepy.btle.BTLEDisconnectError:
-            retrier(mac)
+            retrier(self.mac, self)
