@@ -8,7 +8,7 @@ from struct import unpack
 latest_data = {}
 
 def contact_handler(mac, data):
-    parsed = unpack("cci??c",data)
+    parsed = unpack(">BBi??B",data)
     status = contact.SWContactStatus(parsed[0],parsed[2],parsed[3],parsed[4],parsed[5])
     latest_data[mac] = status
     pass    
@@ -26,14 +26,18 @@ if __name__ == "__main__":
             exit(1)
         devices.append({"conn": connector, "delegate": delegator, "mac": m})
 
-    try:
-        while True:
-            for d in devices:
-                connector = d["conn"]
-                delegator = d["delegate"]
-                delegator.send_req(connector, conn.conn)
-            sleep(3)
-            print(latest_data)
-    finally:
-        connector.disconnect()
-        pass
+    def collect_data():
+        try:
+            while True:
+                for d in devices:
+                    connector = d["conn"]
+                    delegator = d["delegate"]
+                    delegator.send_req(connector, conn.conn)
+                sleep(3)
+                print(latest_data)
+        finally:
+            connector.disconnect()
+            pass
+
+
+    collect_data()

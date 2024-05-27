@@ -1,2 +1,3 @@
 bluepy
 python-dotenv
+prometheus_client
