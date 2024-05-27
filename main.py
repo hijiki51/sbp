@@ -24,10 +24,8 @@ if __name__ == "__main__":
     devices = []
     for m in macs:
         delegator = contact.SWContact(contact_handler,m)
-        connector = conn.conn(m,delegator)
-        if connector is None:
-            print("Failed to connect")
-            exit(1)
+        connector = conn.Connector()
+        connector.connect(m,delegator)
         devices.append({"conn": connector, "delegate": delegator, "mac": m})
     start_http_server(8000)
     try:
@@ -35,7 +33,7 @@ if __name__ == "__main__":
             for d in devices:
                 connector = d["conn"]
                 delegator = d["delegate"]
-                delegator.send_req(connector, conn.conn)
+                delegator.send_req(connector)
             sleep(1)
     finally:
         connector.disconnect()
