@@ -13,7 +13,7 @@ services:
       "--web.enable-lifecycle"
     ]
     ports:
-      - "9090:9090"
+      - "9090"
     volumes:
       - prometheus-data:/prometheus
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml
@@ -21,7 +21,7 @@ services:
     image: grafana/grafana:latest
     restart: always
     ports:
-      - "3000:3000"
+      - "3000"
     volumes:
       - grafana-data:/var/lib/grafana
       - ./config/grafana.ini:/etc/grafana/grafana.ini:ro
