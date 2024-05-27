@@ -1,6 +1,6 @@
 import bluepy
 from typing import Optional
-
+from time import sleep
 class Connector:
     connector: Optional[bluepy.btle.Peripheral]
     def connect(self, mac: str, delegator):
@@ -17,6 +17,7 @@ class Connector:
             except bluepy.btle.BTLEDisconnectError:
                 is_connect = False
                 print("Failed to connect")
+                sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
         self.connector = self.connect(mac, delegator)
@@ -24,27 +25,18 @@ class Connector:
     def disconnect(self):
         if self.connector:
             self.connector.disconnect()
+        else:
+            raise Exception("Not connected")
         return 
     def writeCharacteristic(self, handle, data):
         if self.connector:
             self.connector.writeCharacteristic(handle, data)
+        else:
+            raise Exception("Not connected")
         return
     def waitForNotifications(self, timeout):
         if self.connector:
             self.connector.waitForNotifications(timeout)
+        else:
+            raise Exception("Not connected")
         return
-
-def conn(mac: str, delegator): 
-    is_connect = False
-    connector = bluepy.btle.Peripheral()
-    while not is_connect:
-        try:
-            connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
-            print("Connected")
-            is_connect = True
-            connector.withDelegate(delegator)
-            return connector
-        except bluepy.btle.BTLEDisconnectError:
-            is_connect = False
-            print("Failed to connect")
-            continue
