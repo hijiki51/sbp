@@ -21,7 +21,7 @@ services:
     image: grafana/grafana:latest
     restart: always
     ports:
-      - "127.0.0.1:3000:3000"
+      - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
       - ./config/grafana.ini:/etc/grafana/grafana.ini:ro
