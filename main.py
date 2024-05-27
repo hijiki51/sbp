@@ -4,14 +4,17 @@ import os
 from time import sleep
 from dotenv import load_dotenv
 from struct import unpack
+from prometheus_client import start_http_server, Enum
 
-latest_data = {}
+
+PROMETHEUS_WINDOW_STAT = Enum("window_state","Window open or close",states=["open","close"])
 
 def contact_handler(mac, data):
     parsed = unpack(">BBi??B",data)
     status = contact.SWContactStatus(parsed[0],parsed[2],parsed[3],parsed[4],parsed[5])
-    latest_data[mac] = status
-    pass    
+    _stat = "open" if status.door == 1 else "close"
+    PROMETHEUS_WINDOW_STAT.labels(mac).state(_stat)
+    return
 
 
 if __name__ == "__main__":
@@ -25,19 +28,14 @@ if __name__ == "__main__":
             print("Failed to connect")
             exit(1)
         devices.append({"conn": connector, "delegate": delegator, "mac": m})
-
-    def collect_data():
-        try:
-            while True:
-                for d in devices:
-                    connector = d["conn"]
-                    delegator = d["delegate"]
-                    delegator.send_req(connector, conn.conn)
-                sleep(3)
-                print(latest_data)
-        finally:
-            connector.disconnect()
-            pass
-
-
-    collect_data()
+    start_http_server(8000)
+    try:
+        while True:
+            for d in devices:
+                connector = d["conn"]
+                delegator = d["delegate"]
+                delegator.send_req(connector, conn.conn)
+            sleep(3)
+    finally:
+        connector.disconnect()
+        pass
