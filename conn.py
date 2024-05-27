@@ -20,7 +20,7 @@ class Connector:
                 sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
-        self.connector = self.connect(mac, delegator)
+        self.connect(mac, delegator)
         return
     def disconnect(self):
         if self.connector:
