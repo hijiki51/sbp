@@ -37,5 +37,5 @@ class SWContact(bluepy.btle.DefaultDelegate):
             conn.writeCharacteristic(SBOTCON_HANDLE_WRITE, b'\x57\x00\x11') # https://github.com/OpenWonderLabs/SwitchBotAPI-BLE/blob/latest/devicetypes/contactsensor.md#0x11-get-device-status-data
             conn.waitForNotifications(1.0)
             return
-        except bluepy.btle.BTLEDisconnectError:
+        except:
             retrier(self.mac, self)
