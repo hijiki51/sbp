@@ -7,7 +7,9 @@ from struct import unpack
 from prometheus_client import start_http_server, Enum
 
 
-PROMETHEUS_WINDOW_STAT = Enum("window_state","Window open or close",states=["open","close"])
+load_dotenv()
+macs = (os.getenv("WINDOW_SENSORS") or "").split(",")
+PROMETHEUS_WINDOW_STAT = Enum("window_state","Window open or close",labelnames=macs,states=["open","close"])
 
 def contact_handler(mac, data):
     parsed = unpack(">BBi??B",data)
@@ -18,8 +20,7 @@ def contact_handler(mac, data):
 
 
 if __name__ == "__main__":
-    load_dotenv()
-    macs = (os.getenv("WINDOW_SENSORS") or "").split(",")
+
     devices = []
     for m in macs:
         delegator = contact.SWContact(contact_handler,m)
