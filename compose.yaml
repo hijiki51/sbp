@@ -11,7 +11,7 @@ services:
       "--web.enable-lifecycle"
     ]
     network_mode: "host"
-    ports:
+    expose:
       - "9090"
     volumes:
       - prometheus-data:/prometheus
@@ -20,7 +20,7 @@ services:
     image: grafana/grafana:latest
     restart: always
     network_mode: "host"
-    ports:
+    expose:
       - "3000"
     volumes:
       - grafana-data:/var/lib/grafana
