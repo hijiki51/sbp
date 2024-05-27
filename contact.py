@@ -29,7 +29,7 @@ class SWContact(bluepy.btle.DefaultDelegate):
         self.handler = handler
         self.mac = mac
     def handleNotification(self, cHandle, data):
-        self.handler(data)
+        self.handler(self.mac, data)
         pass
     def send_req(self, conn: bluepy.btle.Peripheral, retrier: Callable):
         try:
