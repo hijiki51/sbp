@@ -9,7 +9,8 @@ from prometheus_client import start_http_server, Enum
 
 load_dotenv()
 macs = (os.getenv("WINDOW_SENSORS") or "").split(",")
-PROMETHEUS_WINDOW_STAT = Enum("switchbot_window_state","Window open or close",states=["open","close"])
+macs_escaped = [m.replace(":","") for m in macs]
+PROMETHEUS_WINDOW_STAT = Enum("switchbot_window_state","Window open or close",labelnames=macs_escaped,states=["open","close"])
 
 def contact_handler(mac, data):
     parsed = unpack(">BBi??B",data)
