@@ -3,10 +3,13 @@ import conn
 import os
 from time import sleep
 from dotenv import load_dotenv
+from struct import unpack
 
 
 def contact_handler(data):
-    print(data)
+    parsed = unpack("cci??c",data)
+    status = contact.SWContactStatus(parsed[0],parsed[2],parsed[3],parsed[4],parsed[5])
+    print(status)
     pass    
 
 

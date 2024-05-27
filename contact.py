@@ -1,5 +1,6 @@
 import bluepy
 from typing import Callable
+from dataclasses import dataclass
 # https://qiita.com/amax/items/512c35103350d3d33320#%E3%83%AB%E3%83%BC%E3%83%97%E5%87%A6%E7%90%86contact_loop_switchbot%E9%96%A2%E6%95%B0
 
 # The device type is in the service data of SCAN_RSP.
@@ -11,6 +12,14 @@ from typing import Callable
 
 SBOTCON_HANDLE_NOTIFY = 0x000f
 SBOTCON_HANDLE_WRITE = 0x000d
+
+@dataclass
+class SWContactStatus:
+    status: int
+    duration_time: int
+    pir: bool
+    light: bool
+    door: bool
 
 class SWContact(bluepy.btle.DefaultDelegate):
     handler: Callable
