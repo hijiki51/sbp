@@ -10,6 +10,7 @@ services:
       "--web.console.templates=/usr/share/prometheus/consoles",
       "--web.enable-lifecycle"
     ]
+    network_mode: "host"
     ports:
       - "9090"
     volumes:
@@ -18,6 +19,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     restart: always
+    network_mode: "host"
     ports:
       - "3000"
     volumes:
