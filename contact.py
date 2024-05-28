@@ -25,7 +25,8 @@ class SWContactStatus:
 class SWContact(bluepy.btle.DefaultDelegate):
     mac: str
     handler: Callable
-    def __init__(self, handler: Callable,mac: str):
+    error_handler: Callable
+    def __init__(self, mac: str, handler: Callable,error_handler:Callable):
         bluepy.btle.DefaultDelegate.__init__(self)
         self.handler = handler
         self.mac = mac
@@ -39,4 +40,5 @@ class SWContact(bluepy.btle.DefaultDelegate):
             connector.waitForNotifications(1.0)
             return
         except:
+            self.error_handler(self.mac)
             connector.reconnect(self.mac, self)

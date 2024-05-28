@@ -20,11 +20,15 @@ class Connector:
                 sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
-        connector = bluepy.btle.Peripheral()
-        connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
-        print("Connected")
-        connector.withDelegate(delegator)
-        self.connector = connector
+        try:
+            connector = bluepy.btle.Peripheral()
+            connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
+            print("Connected")
+            connector.withDelegate(delegator)
+            self.connector = connector
+        except bluepy.btle.BTLEDisconnectError:
+            print("Failed to connect")
+            return
         return 
     def disconnect(self):
         if self.connector:
