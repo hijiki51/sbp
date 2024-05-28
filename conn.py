@@ -1,6 +1,8 @@
 import bluepy
 from typing import Optional
 from time import sleep
+from logging import getLogger
+logger = getLogger(__name__)
 class Connector:
     connector: Optional[bluepy.btle.Peripheral]
     def connect(self, mac: str, delegator):
@@ -9,25 +11,25 @@ class Connector:
         while not is_connect:
             try:
                 connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
-                print("Connected")
+                logger.info(f"Connected to {mac}")
                 is_connect = True
                 connector.withDelegate(delegator)
                 self.connector = connector
                 return
             except bluepy.btle.BTLEDisconnectError:
                 is_connect = False
-                print("Failed to connect")
+                logger.debug(f"Failed to connect: {mac}")
                 sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
         try:
             connector = bluepy.btle.Peripheral()
             connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
-            print("Connected")
+            logger.info(f"Connected to {mac}")
             connector.withDelegate(delegator)
             self.connector = connector
         except bluepy.btle.BTLEDisconnectError:
-            print("Failed to connect")
+            logger.debug(f"Failed to connect: {mac}")
             return
         return 
     def disconnect(self):
