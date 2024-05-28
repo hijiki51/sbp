@@ -29,6 +29,7 @@ class SWContact(bluepy.btle.DefaultDelegate):
     def __init__(self, mac: str, handler: Callable,error_handler:Callable):
         bluepy.btle.DefaultDelegate.__init__(self)
         self.handler = handler
+        self.error_handler = error_handler
         self.mac = mac
     def handleNotification(self, cHandle, data):
         self.handler(self.mac, data)
