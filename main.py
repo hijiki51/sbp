@@ -17,7 +17,7 @@ def contact_handler(mac, data):
     _stat = "close" if status.door == 0 else "open"
     PROMETHEUS_WINDOW_STAT.labels(mac).state(_stat)
     return
-def contact_error_handler(mac, data):
+def contact_error_handler(mac):
     PROMETHEUS_WINDOW_STAT.labels(mac).state("nodata")
     return
 
