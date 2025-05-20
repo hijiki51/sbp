@@ -10,7 +10,8 @@ class Connector:
     def connect(self, mac: str, delegator):
         is_connect = False
         connector = bluepy.btle.Peripheral()
-        while not is_connect:
+        timeout = 10
+        while not is_connect and timeout > 0:
             try:
                 connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
                 self.logger.info(f"Connected to {mac}")
@@ -22,7 +23,9 @@ class Connector:
                 is_connect = False
                 self.logger.info(f"Failed to connect: {mac}")
                 sleep(1)
+                timeout -= 1
                 continue
+            self.logger.error(f"Failed to connect: timeout: {mac}")
     def reconnect(self, mac: str, delegator):
         try:
             connector = bluepy.btle.Peripheral()
