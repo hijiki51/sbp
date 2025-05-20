@@ -5,7 +5,9 @@ import logging
 class Connector:
     connector: Optional[bluepy.btle.Peripheral]
     logger: logging.Logger
-    def connect(self, mac: str, delegator, logger: logging.Logger):
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
+    def connect(self, mac: str, delegator):
         is_connect = False
         connector = bluepy.btle.Peripheral()
         while not is_connect:
