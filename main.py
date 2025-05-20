@@ -6,9 +6,14 @@ from dotenv import load_dotenv
 from struct import unpack
 from prometheus_client import start_http_server, Enum
 
-from logging import getLogger, DEBUG
+from logging import getLogger, DEBUG, StreamHandler
 logger = getLogger(__name__)
 logger.setLevel(DEBUG)
+handler = StreamHandler()
+handler.setLevel(DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 load_dotenv()
