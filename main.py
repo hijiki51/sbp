@@ -11,8 +11,6 @@ logger = getLogger(__name__)
 logger.setLevel(DEBUG)
 handler = StreamHandler()
 handler.setLevel(DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
