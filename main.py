@@ -6,8 +6,9 @@ from dotenv import load_dotenv
 from struct import unpack
 from prometheus_client import start_http_server, Enum
 
-from logging import getLogger
+from logging import getLogger, DEBUG
 logger = getLogger(__name__)
+logger.setLevel(DEBUG)
 
 
 load_dotenv()
