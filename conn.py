@@ -18,7 +18,7 @@ class Connector:
                 return
             except bluepy.btle.BTLEDisconnectError:
                 is_connect = False
-                logger.debug(f"Failed to connect: {mac}")
+                logger.info(f"Failed to connect: {mac}")
                 sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
@@ -29,7 +29,7 @@ class Connector:
             connector.withDelegate(delegator)
             self.connector = connector
         except bluepy.btle.BTLEDisconnectError:
-            logger.debug(f"Failed to connect: {mac}")
+            logger.info(f"Failed to connect: {mac}")
             return
         return 
     def disconnect(self):
