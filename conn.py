@@ -1,7 +1,7 @@
 import bluepy
 from typing import Optional
 from time import sleep
-
+import logging
 class Connector:
     connector: Optional[bluepy.btle.Peripheral]
     logger: logging.Logger
