@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from struct import unpack
 from prometheus_client import start_http_server, Enum
 
+from logging import getLogger
+logger = getLogger(__name__)
+
 
 load_dotenv()
 macs = (os.getenv("WINDOW_SENSORS") or "").split(",")
@@ -27,7 +30,7 @@ if __name__ == "__main__":
     devices = []
     for m in macs:
         delegator = contact.SWContact(m,contact_handler,contact_error_handler)
-        connector = conn.Connector()
+        connector = conn.Connector(logger)
         connector.connect(m,delegator)
         devices.append({"conn": connector, "delegate": delegator, "mac": m})
     start_http_server(8000)

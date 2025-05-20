@@ -1,11 +1,11 @@
 import bluepy
 from typing import Optional
 from time import sleep
-from logging import getLogger
-logger = getLogger(__name__)
+
 class Connector:
     connector: Optional[bluepy.btle.Peripheral]
-    def connect(self, mac: str, delegator):
+    logger: logging.Logger
+    def connect(self, mac: str, delegator, logger: logging.Logger):
         is_connect = False
         connector = bluepy.btle.Peripheral()
         while not is_connect:
