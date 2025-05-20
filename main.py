@@ -29,6 +29,7 @@ if __name__ == "__main__":
 
     devices = []
     for m in macs:
+        logger.info(f"Connecting to {m}")
         delegator = contact.SWContact(m,contact_handler,contact_error_handler)
         connector = conn.Connector(logger)
         connector.connect(m,delegator)

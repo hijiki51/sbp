@@ -13,25 +13,25 @@ class Connector:
         while not is_connect:
             try:
                 connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
-                logger.info(f"Connected to {mac}")
+                self.logger.info(f"Connected to {mac}")
                 is_connect = True
                 connector.withDelegate(delegator)
                 self.connector = connector
                 return
             except bluepy.btle.BTLEDisconnectError:
                 is_connect = False
-                logger.info(f"Failed to connect: {mac}")
+                self.logger.info(f"Failed to connect: {mac}")
                 sleep(1)
                 continue
     def reconnect(self, mac: str, delegator):
         try:
             connector = bluepy.btle.Peripheral()
             connector.connect(mac, bluepy.btle.ADDR_TYPE_RANDOM)
-            logger.info(f"Connected to {mac}")
+            self.logger.info(f"Connected to {mac}")
             connector.withDelegate(delegator)
             self.connector = connector
         except bluepy.btle.BTLEDisconnectError:
-            logger.info(f"Failed to connect: {mac}")
+            self.logger.info(f"Failed to connect: {mac}")
             return
         return 
     def disconnect(self):
